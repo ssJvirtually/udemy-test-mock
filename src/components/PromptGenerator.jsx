@@ -32,6 +32,7 @@ export function PromptGenerator({ onQuickStartExam }) {
   const [includeCode, setIncludeCode] = useState(PROMPT_PRESETS[0].hasCode);
   const [includeMultiSelect, setIncludeMultiSelect] = useState(PROMPT_PRESETS[0].hasMultiSelect);
   const [includeOptionRationales, setIncludeOptionRationales] = useState(true);
+  const [outputMode, setOutputMode] = useState('file'); // 'file' (downloadable) | 'chat' | 'python'
 
   // Copy feedback states
   const [copiedPrompt, setCopiedPrompt] = useState(false);
@@ -71,9 +72,10 @@ export function PromptGenerator({ onQuickStartExam }) {
       passingScore,
       includeCode,
       includeMultiSelect,
-      includeOptionRationales
+      includeOptionRationales,
+      outputMode
     });
-  }, [topic, count, difficulty, domains, durationMinutes, passingScore, includeCode, includeMultiSelect, includeOptionRationales]);
+  }, [topic, count, difficulty, domains, durationMinutes, passingScore, includeCode, includeMultiSelect, includeOptionRationales, outputMode]);
 
   const copyToClipboard = (text, setCopiedState) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -188,9 +190,95 @@ export function PromptGenerator({ onQuickStartExam }) {
 
             {/* Customizer Controls Accordion / Form */}
             <div className="bg-[#f7f9fa] border border-[#d1d7dc] rounded-xl p-4 sm:p-5">
-              <div className="flex items-center space-x-2 text-sm font-bold text-[#2d2f31] mb-4">
-                <Sliders className="w-4 h-4 text-[#a435f0]" />
-                <span>Customize Prompt Parameters</span>
+              <div className="flex items-center justify-between text-sm font-bold text-[#2d2f31] mb-4">
+                <div className="flex items-center space-x-2">
+                  <Sliders className="w-4 h-4 text-[#a435f0]" />
+                  <span>Customize Prompt Parameters</span>
+                </div>
+
+                {count >= 25 && outputMode === 'file' && (
+                  <span className="text-xs font-semibold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full flex items-center space-x-1">
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Browser Freeze Prevention Active</span>
+                  </span>
+                )}
+              </div>
+
+              {/* Output Mode Selector (File vs Chat vs Script) */}
+              <div className="mb-5 pb-5 border-b border-[#d1d7dc]">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#2d2f31]">
+                    Prompt Output Generation Mode:
+                  </label>
+                  <span className="text-[11px] text-[#6a6f73]">
+                    Prevents browser hangup during 50–65 question prompts
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setOutputMode('file')}
+                    className={`p-3 rounded-lg border text-left transition-all ${
+                      outputMode === 'file'
+                        ? 'border-[#a435f0] bg-white ring-2 ring-[#a435f0]/30 shadow-xs'
+                        : 'border-[#d1d7dc] bg-white/70 hover:bg-white text-gray-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-xs sm:text-sm text-[#2d2f31]">
+                      <span>📁 Downloadable .JSON File</span>
+                      {outputMode === 'file' && <Check className="w-4 h-4 text-[#a435f0]" />}
+                    </div>
+                    <p className="text-[11px] text-[#6a6f73] mt-1 leading-snug">
+                      <strong>Recommended for 25–65 Qs.</strong> LLM runs Python/Artifact to generate a file attachment instead of streaming text into the browser.
+                    </p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setOutputMode('chat')}
+                    className={`p-3 rounded-lg border text-left transition-all ${
+                      outputMode === 'chat'
+                        ? 'border-[#a435f0] bg-white ring-2 ring-[#a435f0]/30 shadow-xs'
+                        : 'border-[#d1d7dc] bg-white/70 hover:bg-white text-gray-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-xs sm:text-sm text-[#2d2f31]">
+                      <span>💬 Direct In-Chat Text</span>
+                      {outputMode === 'chat' && <Check className="w-4 h-4 text-[#a435f0]" />}
+                    </div>
+                    <p className="text-[11px] text-[#6a6f73] mt-1 leading-snug">
+                      Outputs raw JSON in a markdown code box. Best for 5–15 questions. (May freeze browser on 50+ questions).
+                    </p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setOutputMode('python')}
+                    className={`p-3 rounded-lg border text-left transition-all ${
+                      outputMode === 'python'
+                        ? 'border-[#a435f0] bg-white ring-2 ring-[#a435f0]/30 shadow-xs'
+                        : 'border-[#d1d7dc] bg-white/70 hover:bg-white text-gray-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-xs sm:text-sm text-[#2d2f31]">
+                      <span>🐍 Python Generator Script</span>
+                      {outputMode === 'python' && <Check className="w-4 h-4 text-[#a435f0]" />}
+                    </div>
+                    <p className="text-[11px] text-[#6a6f73] mt-1 leading-snug">
+                      Generates a Python script (`generate_exam.py`) you can run locally to write the exam JSON file.
+                    </p>
+                  </button>
+                </div>
+
+                {count >= 25 && outputMode === 'chat' && (
+                  <div className="mt-3 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start space-x-2">
+                    <span className="font-bold">⚠️ Warning:</span>
+                    <span>
+                      Generating {count} questions directly as chat text creates over 20,000 words which can hang or crash your browser tab in ChatGPT or Claude. We recommend switching to <strong>📁 Downloadable .JSON File</strong> above!
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs sm:text-sm">
@@ -335,11 +423,19 @@ export function PromptGenerator({ onQuickStartExam }) {
                 <span className="flex items-center space-x-1.5">
                   <Info className="w-4 h-4 text-[#a435f0] shrink-0" />
                   <span>
-                    <strong>How to use:</strong> Click <strong>Copy Full Prompt</strong>, paste into ChatGPT (GPT-4o), Claude 3.5 Sonnet, Gemini 2.0, or DeepSeek, then copy the generated JSON and paste it into the <strong>Upload JSON</strong> tab!
+                    {outputMode === 'file' && (
+                      <><strong>How to use:</strong> Click <strong>Copy Full Prompt</strong>, paste into ChatGPT (GPT-4o) or Claude 3.5 Sonnet. The AI will create a direct downloadable <code className="bg-white px-1 border rounded font-mono text-[11px]">.json</code> file attachment. Download it and drop it into <strong>Upload JSON</strong> (No browser hangup!).</>
+                    )}
+                    {outputMode === 'chat' && (
+                      <><strong>How to use:</strong> Click <strong>Copy Full Prompt</strong>, paste into ChatGPT, Claude, Gemini, or DeepSeek. Copy the raw JSON code box from the response and paste into <strong>Upload JSON</strong>.</>
+                    )}
+                    {outputMode === 'python' && (
+                      <><strong>How to use:</strong> Click <strong>Copy Full Prompt</strong>, run the returned Python script locally with <code className="bg-white px-1 border rounded font-mono text-[11px]">python generate_exam.py</code>, then drag the generated JSON into <strong>Upload JSON</strong>.</>
+                    )}
                   </span>
                 </span>
                 <span className="text-emerald-700 font-semibold shrink-0">
-                  ✓ Validated for all modern LLMs
+                  {outputMode === 'file' ? '✓ File Generation Mode' : '✓ Validated for all LLMs'}
                 </span>
               </div>
             </div>
