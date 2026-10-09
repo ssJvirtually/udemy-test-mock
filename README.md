@@ -2,6 +2,8 @@
 
 > A client-side exam practice platform designed to match the **Udemy practice test UI/UX**, engineered specifically for seamless hosting on **GitHub Pages** with zero backend required.
 
+🌐 **Live Demo on GitHub Pages**: [https://ssjvirtually.github.io/udemy-test-mock/](https://ssjvirtually.github.io/udemy-test-mock/)
+
 Generate high-yield mock exams with **ChatGPT**, **Claude**, **Gemini**, or **DeepSeek** in JSON format, upload them, and practice in an authentic Udemy test simulator.
 
 ---
@@ -32,7 +34,7 @@ Generate high-yield mock exams with **ChatGPT**, **Claude**, **Gemini**, or **De
 
 ### 3. Built-In LLM Prompt Generator & JSON Schema
 - **Home Page Prompt Builder**: Prominently featured on the landing page with 1-click **"Copy Full Prompt"**.
-- **Certification Presets**: AWS Solutions Architect (SAA-C03), Modern React Architecture, Python Backend, PMP, and Custom Topics.
+- **Certification Presets**: Google Cloud Professional Cloud Architect (GCP PCA), AWS Solutions Architect (SAA-C03), Modern React Architecture, Python Backend, PMP, and Custom Topics.
 - **Customizable Parameters**: Adjust question count (5 to 65), difficulty level, code snippets, and multi-choice percentage.
 - **JSON Validator & Sanitizer**:
   - Drag-and-drop or paste raw JSON.
