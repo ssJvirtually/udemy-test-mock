@@ -75,7 +75,7 @@ export function Navbar({ activeTab, onSelectTab, inTestMode = false, onExitTest 
               </button>
 
               <a
-                href="https://github.com"
+                href="https://github.com/ssJvirtually/udemy-test-mock"
                 target="_blank"
                 rel="noreferrer"
                 className="hidden lg:flex items-center space-x-1 text-sm text-[#6a6f73] hover:text-[#2d2f31] px-2 py-1 rounded transition-colors"
