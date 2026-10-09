@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --udemy-purple: #a435f0;
+    --udemy-purple-hover: #8710d8;
+    --udemy-purple-light: #f5eefc;
+    --udemy-dark: #2d2f31;
+    --udemy-gray-text: #6a6f73;
+    --udemy-border: #d1d7dc;
+    --udemy-bg: #f7f9fa;
+    --udemy-card-bg: #ffffff;
+    --udemy-success: #1e7e34;
+    --udemy-success-bg: #e8f5e9;
+    --udemy-danger: #b32d0f;
+    --udemy-danger-bg: #fbeae8;
+    --udemy-warning: #b4690e;
+    --udemy-warning-bg: #fdf5e6;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--udemy-dark);
+    background-color: var(--udemy-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Custom scrollbars for question drawer and code snippets */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
