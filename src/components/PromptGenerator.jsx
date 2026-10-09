@@ -159,7 +159,7 @@ export function PromptGenerator({ onQuickStartExam }) {
               <label className="block text-xs font-bold uppercase tracking-wider text-[#6a6f73] mb-2.5">
                 Choose a Ready-Made Certification Preset or Customize:
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5">
                 {PROMPT_PRESETS.map((preset) => {
                   const isSelected = selectedPresetId === preset.id;
                   return (

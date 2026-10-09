@@ -135,6 +135,140 @@ export const SAMPLE_EXAMS = [
     ]
   },
   {
+    id: "builtin-gcp-pca",
+    title: "Google Cloud Professional Cloud Architect (GCP PCA) Mock Exam",
+    description: "Authentic scenario-based questions modeled after the Google Cloud Professional Cloud Architect certification, covering Cloud Spanner, Workload Identity, Dedicated Interconnect, Cloud Armor, and BigQuery analytics.",
+    category: "Cloud Architecture",
+    durationMinutes: 25,
+    passingScore: 75,
+    domains: [
+      "Section 1: Designing and planning a cloud solution architecture",
+      "Section 2: Managing and provisioning a solution infrastructure",
+      "Section 3: Designing for security and compliance",
+      "Section 4: Analyzing and optimizing technical and business processes",
+      "Section 6: Ensuring solution and operations reliability"
+    ],
+    questions: [
+      {
+        id: 1,
+        domain: "Section 1: Designing and planning a cloud solution architecture",
+        difficulty: "Advanced scenario-based",
+        type: "single",
+        question: "A global financial institution is architecting a transaction processing backend on Google Cloud. The system must support synchronized global ACID transactions across North America, Europe, and Asia with sub-10ms read latencies, automatic sharding, and guaranteed 99.999% (five nines) availability SLA. Which Google Cloud storage service should the architect select?",
+        codeSnippet: "",
+        options: [
+          "Cloud Spanner configured with a multi-region instance configuration.",
+          "Cloud Bigtable with multi-cluster replication across regions.",
+          "Cloud SQL for PostgreSQL with cross-region read replicas.",
+          "Firestore in Datastore mode with global replication."
+        ],
+        correctAnswer: 0,
+        explanation: "Cloud Spanner is Google Cloud's fully managed, mission-critical relational database service designed specifically for global scale with strong ACID consistency, automatic horizontal sharding, and up to 99.999% availability SLA in multi-region instances using TrueTime atomic clocks. Cloud Bigtable is NoSQL and does not provide multi-row ACID transactions. Cloud SQL cross-region replicas are asynchronously replicated and cannot guarantee global synchronous ACID consistency.",
+        optionRationales: {
+          "A": "Correct: Multi-region Cloud Spanner is built for global synchronous ACID transactions and provides a 99.999% availability SLA.",
+          "B": "Incorrect: Cloud Bigtable is a wide-column NoSQL store built for massive analytical throughput, not transactional ACID schemas.",
+          "C": "Incorrect: Cloud SQL uses asynchronous replication for cross-region replicas and does not support 99.999% SLA or automatic global sharding.",
+          "D": "Incorrect: Firestore is a document store and does not meet the high-throughput complex SQL relational requirements for global banking ledgers."
+        },
+        referenceUrl: "https://cloud.google.com/spanner/docs/instance-configurations#multi-region-configurations"
+      },
+      {
+        id: 2,
+        domain: "Section 3: Designing for security and compliance",
+        difficulty: "Intermediate",
+        type: "single",
+        question: "Your organization runs containerized microservices on Google Kubernetes Engine (GKE). Several pods need read and write access to Cloud Storage buckets and Secret Manager secrets. Company security policy strictly forbids generating, downloading, or storing service account private key JSON files inside containers or Kubernetes Secrets. What is the recommended Google Cloud approach?",
+        codeSnippet: "",
+        options: [
+          "Enable GKE Workload Identity and bind Kubernetes Service Accounts (KSAs) to Google Service Accounts (GSAs).",
+          "Attach the default Compute Engine service account with Project Owner permissions to all GKE node pools.",
+          "Store the service account key inside a HashiCorp Vault cluster running on GKE and inject it at runtime.",
+          "Assign the required IAM roles directly to each developer's personal Google Account."
+        ],
+        correctAnswer: 0,
+        explanation: "Workload Identity is the recommended best practice for authenticating workloads on GKE. It allows a Kubernetes service account (KSA) in a GKE cluster to act as an IAM Google service account (GSA), automatically exchanging short-lived credentials via the GKE metadata server without needing any long-lived service account key files.",
+        optionRationales: {
+          "A": "Correct: Workload Identity eliminates the need for service account keys by mapping Kubernetes Service Accounts directly to Google IAM Service Accounts.",
+          "B": "Incorrect: Using default service accounts with Owner permissions violates the principle of least privilege and causes massive security vulnerability.",
+          "C": "Incorrect: Still involves managing long-lived static private keys, whereas Workload Identity is keyless and natively integrated.",
+          "D": "Incorrect: Workloads run as service accounts, not user accounts, and personal accounts cannot be mounted onto GKE pods."
+        },
+        referenceUrl: "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity"
+      },
+      {
+        id: 3,
+        domain: "Section 6: Ensuring solution and operations reliability",
+        difficulty: "Advanced scenario-based",
+        type: "multiple",
+        question: "An enterprise is establishing hybrid connectivity between its primary on-premises data centers and Google Cloud Virtual Private Cloud (VPC). The enterprise architecture board requires a 99.99% availability SLA for mission-critical production workloads. Which TWO network configurations must be implemented to qualify for Google Cloud's 99.99% Dedicated Interconnect SLA? (Select TWO)",
+        codeSnippet: "",
+        options: [
+          "Provision two Cloud Interconnect circuits in two separate metropolitan areas (different colocation facilities).",
+          "Deploy two Cloud Routers in each region and establish dual eBGP sessions per interconnect connection.",
+          "Deploy a single 100 Gbps Cloud Interconnect with a Carrier Peering fallback link.",
+          "Use Cloud VPN over the public Internet configured with static routes as the primary transport.",
+          "Enable VPC Network Peering between the on-premises border router and the Google Cloud VPC."
+        ],
+        correctAnswer: [0, 1],
+        explanation: "Google Cloud requires dual Dedicated Interconnect circuits deployed in two separate metropolitan areas (or two distinct colocation facilities/domains) with two Cloud Routers per region and dynamic eBGP routing to qualify for the 99.99% availability SLA. Single facility connections only qualify for 99.9% availability.",
+        optionRationales: {
+          "A": "Correct: 99.99% SLA mandates redundant interconnects in two different metropolitan areas/colocation facilities.",
+          "B": "Correct: Dual Cloud Routers with eBGP peering across redundant circuits in each region ensure complete equipment failure tolerance.",
+          "C": "Incorrect: Carrier Peering is not a replacement for Dedicated Interconnect and does not offer SLA-backed private routing.",
+          "D": "Incorrect: Cloud VPN over the public internet has variable latency and cannot guarantee 99.99% enterprise interconnect throughput.",
+          "E": "Incorrect: VPC Network Peering connects two Google Cloud VPC networks, not on-premises enterprise data center routers."
+        },
+        referenceUrl: "https://cloud.google.com/network-connectivity/docs/interconnect/tutorials/dedicated-creating-9999-availability"
+      },
+      {
+        id: 4,
+        domain: "Section 3: Designing for security and compliance",
+        difficulty: "Advanced",
+        type: "single",
+        question: "An online retail platform experiences periodic Layer 7 HTTP flood attacks and credential stuffing attempts from specific geographic IP ranges. The application is served by a Global External Application Load Balancer with Compute Engine backends. You must mitigate these attacks at the Google Cloud edge network before traffic hits backend instances, without introducing application code changes. What should you configure?",
+        codeSnippet: "",
+        options: [
+          "Configure Google Cloud Armor security policies with rate limiting, geo-fencing (geo-blocking), and preconfigured WAF rules attached to the backend service.",
+          "Configure Cloud IDS (Intrusion Detection System) to automatically drop malicious TCP SYN packets.",
+          "Write an iptables firewall script on each Compute Engine VM instance to block abusive IP addresses.",
+          "Create VPC Firewall rules with priority 1000 to filter incoming HTTP headers."
+        ],
+        correctAnswer: 0,
+        explanation: "Google Cloud Armor integrates directly with Global External Application Load Balancers to inspect and filter web traffic at Google's global edge infrastructure. It offers Layer 7 DDoS mitigation, rate limiting, IP allow/deny lists, geographic filtering, and preconfigured WAF rules (OWASP Top 10) before traffic ever reaches your backend instances.",
+        optionRationales: {
+          "A": "Correct: Cloud Armor inspects traffic at the Google edge, applying rate limits, geo-blocking, and WAF rules to protect backend services.",
+          "B": "Incorrect: Cloud IDS detects intrusions and alerts via Cloud Logging, but it is an inspection service and does not inline drop Layer 7 traffic.",
+          "C": "Incorrect: Host-level iptables still allows traffic to reach and saturate VM network interfaces, failing to stop edge volumetric attacks.",
+          "D": "Incorrect: VPC firewall rules operate at Layer 3/4 (IP and port) and cannot inspect Layer 7 HTTP headers, URLs, or geo-locations."
+        },
+        referenceUrl: "https://cloud.google.com/armor/docs/cloud-armor-overview"
+      },
+      {
+        id: 5,
+        domain: "Section 1: Designing and planning a cloud solution architecture",
+        difficulty: "Intermediate",
+        type: "single",
+        question: "A company receives telemetry streams from 500,000 IoT sensors every second. The data must be ingested with high durability, processed in real-time to compute 5-minute tumbling window averages, and stored in a serverless data warehouse for analytical SQL queries by data scientists. The solution should be completely serverless with zero infrastructure maintenance. Which architecture should the cloud architect propose?",
+        codeSnippet: "",
+        options: [
+          "Ingest into Cloud Pub/Sub -> Process streams using Cloud Dataflow (Apache Beam) -> Store results in Google BigQuery.",
+          "Ingest into Cloud Logging -> Process using Cloud Functions -> Write to Cloud Bigtable.",
+          "Ingest into Compute Engine VMs running Apache Kafka -> Process with Apache Spark on Dataproc -> Store in Cloud Storage.",
+          "Ingest into Cloud Storage via Transfer Appliance -> Batch load into Cloud SQL for MySQL."
+        ],
+        correctAnswer: 0,
+        explanation: "The canonical Google Cloud streaming architecture is: Cloud Pub/Sub for scalable, serverless, durable event ingestion -> Cloud Dataflow for fully managed, autoscaling stream processing with native windowing and exactly-once processing -> BigQuery for petabyte-scale serverless SQL analytics. Dataproc and Kafka require VM management, while Transfer Appliance is for offline bulk migrations.",
+        optionRationales: {
+          "A": "Correct: Pub/Sub + Dataflow + BigQuery is the standard serverless streaming analytics reference architecture on GCP.",
+          "B": "Incorrect: Cloud Logging is not an event streaming bus, and Bigtable does not provide native SQL analytics for data scientists.",
+          "C": "Incorrect: Kafka and Dataproc involve managing compute clusters and operational maintenance, violating the zero-maintenance requirement.",
+          "D": "Incorrect: Transfer Appliance is a physical hardware appliance for multi-terabyte offline transfers, not real-time per-second IoT streams."
+        },
+        referenceUrl: "https://cloud.google.com/architecture/streaming-data-processing-reference-architecture"
+      }
+    ]
+  },
+  {
     id: "builtin-react-frontend",
     title: "React 19 & Modern Frontend Architecture Mastery",
     description: "Deep dive test on React internals, useEffect hook dependencies, race condition handling, rendering optimization, useMemo vs useCallback, and state machines.",

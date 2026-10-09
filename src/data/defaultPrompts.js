@@ -19,6 +19,25 @@ export const PROMPT_PRESETS = [
     hasMultiSelect: true
   },
   {
+    id: "gcp-pca",
+    title: "Google Cloud Professional Cloud Architect (GCP PCA)",
+    topic: "Google Cloud Certified Professional Cloud Architect (GCP PCA)",
+    count: 10,
+    difficulty: "Advanced scenario-based",
+    domains: [
+      "Section 1: Designing and planning a cloud solution architecture",
+      "Section 2: Managing and provisioning a solution infrastructure",
+      "Section 3: Designing for security and compliance",
+      "Section 4: Analyzing and optimizing technical and business processes",
+      "Section 5: Managing implementations of cloud architecture",
+      "Section 6: Ensuring solution and operations reliability"
+    ],
+    durationMinutes: 30,
+    passingScore: 75,
+    hasCode: false,
+    hasMultiSelect: true
+  },
+  {
     id: "react-frontend",
     title: "Modern React & Frontend Engineering",
     topic: "React 19, TypeScript, State Management, Performance, and Web Architecture",
